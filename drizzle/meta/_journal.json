@@ -8,6 +8,13 @@
       "when": 1791395787653,
       "tag": "0000_abnormal_luke_cage",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791402213613,
+      "tag": "0001_lovely_wraith",
+      "breakpoints": true
     }
   ]
 }
