@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,13 +20,14 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    const { error } = await authClient.signIn.email({
+    const { error } = await authClient.signUp.email({
+      name,
       email,
       password,
     });
 
     if (error) {
-      setError(error.message || "Unable to sign in.");
+      setError(error.message || "Unable to create your account.");
       setLoading(false);
       return;
     }
@@ -36,9 +38,22 @@ export default function LoginPage() {
 
   return (
     <main>
-      <h1>Sign in to Nexus</h1>
+      <h1>Create your Nexus account</h1>
 
       <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            required
+          />
+        </div>
+
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -58,7 +73,8 @@ export default function LoginPage() {
             id="password"
             name="password"
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
+            minLength={8}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
@@ -68,14 +84,14 @@ export default function LoginPage() {
         {error && <p role="alert">{error}</p>}
 
         <button type="submit" disabled={loading}>
-          {loading ? "Signing in..." : "Sign in"}
+          {loading ? "Creating account..." : "Create account"}
         </button>
       </form>
 
       <p>
-  Don&apos;t have an account?{" "}
-  <a href="/auth/register">Create one</a>
-</p>
+        Already have an account?{" "}
+        <a href="/auth/login">Sign in</a>
+      </p>
     </main>
   );
 }
