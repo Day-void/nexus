@@ -9,10 +9,13 @@ import {
   index,
 } from "drizzle-orm/pg-core";
 
+
 export const platformRoleEnum = pgEnum("platform_role", [
   "user",
   "admin",
 ]);
+
+
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
