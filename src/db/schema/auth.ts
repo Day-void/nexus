@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+  pgEnum,
   pgTable,
   text,
   timestamp,
@@ -8,12 +9,18 @@ import {
   index,
 } from "drizzle-orm/pg-core";
 
+export const platformRoleEnum = pgEnum("platform_role", [
+  "user",
+  "admin",
+]);
+
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  platformRole: platformRoleEnum("platform_role").notNull().default("user"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
